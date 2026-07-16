@@ -1,0 +1,220 @@
+<!-- pages/provider.html -->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة مقدم الخدمة - Boostify AI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <style>
+        .service-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .service-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-purple);
+        }
+        .service-img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-bottom: 1px solid var(--border-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        
+        <!-- القائمة الجانبية الموحدة لمقدم الخدمة -->
+        <aside class="sidebar">
+            <div>
+                <a href="#" class="sidebar-brand">
+                    <i class="fa-solid fa-bolt-lightning"></i>
+                    <span>Boostify <span style="color:var(--accent-pink)">AI</span></span>
+                </a>
+                <ul class="sidebar-menu">
+                    <li><a href="provider.html" class="menu-item active"><i class="fa-solid fa-crown"></i>لوحة الأرباح</a></li>
+                    <li><a href="chat.html" class="menu-item"><i class="fa-solid fa-comment-dots"></i>الرسائل الواردة</a></li>
+                    <li><a href="settings.html" class="menu-item"><i class="fa-solid fa-gears"></i>إعدادات الحساب</a></li>
+                </ul>
+            </div>
+            <div>
+                <a href="#" id="logoutBtn" class="menu-item text-danger"><i class="fa-solid fa-right-from-bracket"></i>خروج آمن</a>
+            </div>
+        </aside>
+
+        <!-- منطقة المحتوى الرئيسي لمقدم الخدمة -->
+        <main class="main-content">
+            <header class="content-header">
+                <div>
+                    <h1 class="fw-bold fs-3">بوابة أعمال الشركاء 🚀</h1>
+                    <p class="text-muted mb-0" id="welcomeMsg">مرحباً شريكنا المميز، جاري تحميل إحصائيات مبيعاتك الفورية...</p>
+                </div>
+                <div class="user-profile-badge">
+                    <img src="https://via.placeholder.com/150" alt="Avatar" class="user-avatar" id="navAvatar">
+                    <span class="fw-semibold text-white" id="navName">المزود</span>
+                </div>
+            </header>
+
+            <!-- كروت أرباح ومؤشرات الأداء -->
+            <div class="row g-4">
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="text-muted fw-semibold">الأرباح المتاحة للسحب</span>
+                            <div class="stat-icon" style="color:#00b894; background:rgba(0,184,148,0.1);"><i class="fa-solid fa-money-bill-trend-up"></i></div>
+                        </div>
+                        <h3 class="fw-bold mb-2" id="providerBalance">0.00 $</h3>
+                        <button class="btn btn-sm btn-success w-100" data-bs-toggle="modal" data-bs-target="#withdrawModal"><i class="fa-solid fa-arrow-down-to-bracket me-1"></i> سحب الرصيد</button>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="text-muted fw-semibold">إجمالي أرباحك بالمنصة</span>
+                            <div class="stat-icon" style="color:var(--accent-purple);"><i class="fa-solid fa-chart-line"></i></div>
+                        </div>
+                        <h3 class="fw-bold mb-1" id="totalEarnings">0.00 $</h3>
+                        <span class="text-muted small">شامل المبالغ المسحوبة سابقاً</span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="text-muted fw-semibold">الخدمات النشطة</span>
+                            <div class="stat-icon" style="color:var(--accent-pink); background:rgba(255,117,143,0.1);"><i class="fa-solid fa-cubes"></i></div>
+                        </div>
+                        <h3 class="fw-bold mb-1" id="servicesCount">0</h3>
+                        <span class="text-muted small">معروضة في سوق الخدمات</span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="text-muted fw-semibold">طلبات جاري العمل عليها</span>
+                            <div class="stat-icon" style="color:#fdcb6e; background:rgba(253,203,110,0.1);"><i class="fa-solid fa-spinner"></i></div>
+                        </div>
+                        <h3 class="fw-bold mb-1" id="activeSalesCount">0</h3>
+                        <span class="text-warning small"><i class="fa-solid fa-circle-play me-1"></i>قيد الإنجاز حالياً</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- قسم الخدمات الرقمية الخاصة بالمزود -->
+            <div class="mt-5 d-flex justify-content-between align-items-center">
+                <h4 class="fw-bold mb-0"><i class="fa-solid fa-folder-open me-2 text-primary"></i>كتالوج خدماتي المعروضة</h4>
+                <button class="btn btn-primary px-4 fw-bold" data-bs-toggle="modal" data-bs-target="#addServiceModal"><i class="fa-solid fa-plus me-1"></i> أضف خدمة جديدة</button>
+            </div>
+
+            <div class="row g-4 mt-2" id="servicesGrid">
+                <!-- جاري تعبئتها بواسطة JS بشكل حي -->
+            </div>
+
+            <!-- قائمة المبيعات والطلبيات الواردة الأخيرة -->
+            <div class="custom-table-card mt-5">
+                <h5 class="fw-bold mb-4"><i class="fa-solid fa-receipt me-2 text-warning"></i>آخر طلبات الشراء الواردة لحسابك</h5>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>اسم الخدمة المباعة</th>
+                                <th>اسم المشتري</th>
+                                <th>قيمة المبيعة صافي</th>
+                                <th>تاريخ الطلب</th>
+                                <th>الحالة</th>
+                            </tr>
+                        </thead>
+                        <tbody id="salesTableBody">
+                            <tr>
+                                <td colspan="5" class="text-center py-5 text-muted">لا يوجد مبيعات مسجلة باسمك بعد.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- نافذة إضافة خدمة جديدة (Add Service Modal) -->
+    <div class="modal fade" id="addServiceModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content text-white" style="background: #120b26; border: 1px solid var(--border-color);">
+                <div class="modal-header border-bottom border-secondary">
+                    <h5 class="modal-title fw-bold">إضافة خدمة رقمية جديدة للمعرض</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="addServiceForm" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="serviceTitle" class="form-label">عنوان الخدمة</label>
+                                <input type="text" class="form-control" id="serviceTitle" placeholder="مثال: بناء تطبيق ويب متكامل ومحمي" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="serviceCategory" class="form-label">تصنيف الخدمة</label>
+                                <select class="form-select" id="serviceCategory" style="background:#090514; color:white;" required>
+                                    <option value="">جاري تحميل التصنيفات المتاحة...</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="servicePrice" class="form-label">سعر الخدمة الافتراضي ($)</label>
+                                <input type="number" class="form-control" id="servicePrice" placeholder="مثال: 150" required min="5">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="deliveryTime" class="form-label">مدة التسليم المتوقعة (بالأيام)</label>
+                                <input type="number" class="form-control" id="deliveryTime" placeholder="مثال: 5" required min="1">
+                            </div>
+                            <div class="col-12">
+                                <label for="serviceImage" class="form-label">صورة الغلاف التعريفية للخدمة</label>
+                                <input type="file" class="form-control" id="serviceImage" accept="image/*">
+                            </div>
+                            <div class="col-12">
+                                <label for="serviceDescription" class="form-label">شرح تفصيلي للخدمة ومميزاتها</label>
+                                <textarea class="form-control" id="serviceDescription" rows="4" placeholder="أدخل تفاصيل ما ستقدمه للعميل، والشروط والمخرجات المتوقعة بوضوح..." required></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-top border-secondary">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                        <button type="submit" class="btn btn-primary" id="btnPublish">نشر الخدمة فوراً</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة سحب الأرباح (Withdraw Modal) -->
+    <div class="modal fade" id="withdrawModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-white" style="background: #120b26; border: 1px solid var(--border-color);">
+                <div class="modal-header border-bottom border-secondary">
+                    <h5 class="modal-title fw-bold">طلب تحويل أرباح لحساب البنكي</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="withdrawForm">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="withdrawAmount" class="form-label">القيمة المالية المراد سحبها ($)</label>
+                            <input type="number" class="form-control" id="withdrawAmount" placeholder="أدخل قيمة السحب المطلوبة" required min="10">
+                            <div class="form-text text-muted">الحد الأدنى لطلب السحب الفردي هو 10 دولارات فقط.</div>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-top border-secondary">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                        <button type="submit" class="btn btn-success" id="btnConfirmWithdraw">تأكيد طلب السحب</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/provider.js"></script>
+</body>
+</html>

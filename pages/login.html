@@ -1,0 +1,75 @@
+<!-- pages/login.html -->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boostify AI - تسجيل الدخول</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/login.css">
+</head>
+<body class="d-flex align-items-center justify-content-center min-vh-100">
+    
+    <div class="login-card p-4 p-md-5">
+        <div class="text-center mb-4">
+            <div class="brand-logo mb-2">
+                <i class="fa-solid fa-bolt-lightning"></i>
+            </div>
+            <h2 class="fw-bold text-white">Boostify <span class="accent-text">AI</span></h2>
+            <p class="text-muted">مرحباً بك مجدداً، سجل دخولك لإدارة أعمالك الرقمية</p>
+        </div>
+
+        <div id="alertBox" class="alert d-none mb-3" role="alert"></div>
+
+        <form id="loginForm">
+            <div class="mb-3">
+                <label for="email" class="form-label text-white">البريد الإلكتروني</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa-solid fa-envelope"></i></span>
+                    <input type="email" class="form-control" id="email" placeholder="example@domain.com" required autocomplete="email">
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <div class="d-flex justify-content-between mb-1">
+                    <label for="password" class="form-label text-white mb-0">كلمة المرور</label>
+                    <a href="forgot-password.html" class="forgot-pass-link">نسيت كلمة المرور؟</a>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
+                    <input type="password" class="form-control" id="password" placeholder="••••••••" required autocomplete="current-password">
+                    <button class="btn btn-outline-secondary toggle-pass" type="button" id="togglePassword">
+                        <i class="fa-solid fa-eye-slash"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="rememberMe">
+                    <label class="form-check-label text-muted" for="rememberMe">تذكرني على هذا الجهاز</label>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 py-2.5 btn-login fw-bold">
+                <span class="spinner-border spinner-border-sm d-none me-2" role="status" id="loginSpinner"></span>
+                <i class="fa-solid fa-right-to-bracket me-2"></i> دخول آمن
+            </button>
+        </form>
+
+        <div class="text-center mt-4">
+            <p class="text-muted mb-0">ليس لديك حساب؟ <a href="register.html" class="register-link">إنشاء حساب جديد</a></p>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom Control Script -->
+    <script src="../js/login.js"></script>
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!-- pages/chat.html -->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المحادثات الفورية - Boostify AI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <style>
+        .chat-layout {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            height: calc(100vh - 140px);
+            background: #090514;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        .contacts-sidebar {
+            border-left: 1px solid var(--border-color);
+            background: #0c081d;
+            display: flex;
+            flex-direction: column;
+        }
+        .contacts-list {
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+        .contact-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .contact-card:hover, .contact-card.active {
+            background: rgba(108, 92, 231, 0.1);
+            border-right: 4px solid var(--accent-purple);
+        }
+        .chat-main {
+            display: flex;
+            flex-direction: column;
+            background: #070311;
+        }
+        .chat-header {
+            padding: 18px 24px;
+            background: #0d081e;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .messages-area {
+            flex-grow: 1;
+            padding: 24px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .message-bubble {
+            max-width: 60%;
+            padding: 12px 18px;
+            border-radius: 14px;
+            position: relative;
+            word-wrap: break-word;
+            animation: slideInUp 0.25s ease-out;
+        }
+        .message-bubble.sent {
+            align-self: flex-end;
+            background: linear-gradient(135deg, var(--accent-purple), #5344d3);
+            color: white;
+            border-bottom-right-radius: 2px;
+        }
+        .message-bubble.received {
+            align-self: flex-start;
+            background: #181131;
+            color: #d1ced9;
+            border-bottom-left-radius: 2px;
+            border: 1px solid var(--border-color);
+        }
+        .message-meta {
+            font-size: 0.75rem;
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 4px;
+            opacity: 0.7;
+        }
+        .seen-indicator {
+            color: #55efc4;
+        }
+        .seen-indicator.unseen {
+            color: #b5b3bc;
+        }
+        .chat-input-area {
+            padding: 18px 24px;
+            background: #0d081e;
+            border-top: 1px solid var(--border-color);
+        }
+        .chat-input-wrapper {
+            display: flex;
+            gap: 12px;
+            background: #070311;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 6px 12px;
+        }
+        .chat-input-wrapper input {
+            background: transparent;
+            border: none;
+            color: white;
+            flex-grow: 1;
+        }
+        .chat-input-wrapper input:focus {
+            outline: none;
+        }
+        .typing-status {
+            font-size: 0.85rem;
+            color: var(--accent-pink);
+            font-style: italic;
+            height: 20px;
+            margin-bottom: 5px;
+        }
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        
+        <!-- القائمة الجانبية -->
+        <aside class="sidebar">
+            <div>
+                <a href="#" class="sidebar-brand">
+                    <i class="fa-solid fa-comments text-primary"></i>
+                    <span>Boostify <span style="color:var(--accent-pink)">Chat</span></span>
+                </a>
+                <ul class="sidebar-menu">
+                    <li><a href="dashboard.html" class="menu-item"><i class="fa-solid fa-gauge-high"></i>الرئيسية</a></li>
+                    <li><a href="chat.html" class="menu-item active"><i class="fa-solid fa-comments"></i>الرسائل الفورية</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- نافذة المحادثة الكبرى -->
+        <main class="main-content">
+            <header class="content-header mb-4">
+                <div>
+                    <h1 class="fw-bold fs-3">صندوق الرسائل والاتصال 💬</h1>
+                    <p class="text-muted mb-0">تواصل مباشر، آمن ومؤمن فورياً مع المشترين ومقدمي الخدمات.</p>
+                </div>
+            </header>
+
+            <div class="chat-layout">
+                <!-- الشريط الجانبي لقائمة الاتصال -->
+                <div class="contacts-sidebar">
+                    <div class="p-3 border-bottom border-secondary-subtle">
+                        <input type="text" class="form-control bg-dark border-secondary text-white" placeholder="البحث في المحادثات..." id="searchContact">
+                    </div>
+                    <div class="contacts-list" id="contactsContainer">
+                        <!-- يتم التوليد التلقائي لجهات الاتصال هنا -->
+                    </div>
+                </div>
+
+                <!-- مساحة نافذة المحادثة المفتوحة -->
+                <div class="chat-main" id="chatMainPlaceholder">
+                    <div class="h-100 d-flex flex-column justify-content-center align-items-center text-muted">
+                        <i class="fa-regular fa-comments fa-4x mb-3 text-secondary"></i>
+                        <h5 class="fw-bold">ابدأ محادثة جديدة الآن</h5>
+                        <p class="small">اختر أحد جهات الاتصال النشطة من القائمة لبدء التراسل الفوري.</p>
+                    </div>
+                </div>
+
+                <!-- نافذة المحادثة النشطة (مخفية بالبداية) -->
+                <div class="chat-main d-none" id="chatActiveContainer">
+                    <div class="chat-header">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="position-relative">
+                                <img src="https://via.placeholder.com/150" alt="Avatar" class="user-avatar" id="activeChatAvatar">
+                            </div>
+                            <div>
+                                <h6 class="fw-bold text-white mb-1" id="activeChatName">الاسم غير معروف</h6>
+                                <span class="badge bg-secondary" id="activeChatRole">USER</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- مساحة عرض الرسائل -->
+                    <div class="messages-area" id="messagesContainer">
+                        <!-- تظهر الرسائل هنا -->
+                    </div>
+
+                    <!-- صندوق الإدخال وكتل الإرسال -->
+                    <div class="chat-input-area">
+                        <div class="typing-status" id="typingIndicator"></div>
+                        <form id="chatForm">
+                            <div class="chat-input-wrapper">
+                                <input type="text" id="messageInput" placeholder="اكتب رسالتك هنا..." autocomplete="off">
+                                <button type="submit" class="btn btn-primary px-4" style="background:var(--accent-purple); border:none">
+                                    <i class="fa-solid fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- استدعاء ملف الـ Client الخاص بـ Socket.IO والمحمل تلقائياً من الخادم -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="../js/chat.js"></script>
+</body>
+</html>

@@ -1,0 +1,253 @@
+// database/schema.prisma
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Role {
+  id          String       @id @default(uuid())
+  name        String       @unique // مثل: "CLIENT", "PROVIDER", "ADMIN"
+  permissions Permission[]
+  users       User[]
+}
+
+model Permission {
+  id    String @id @default(uuid())
+  name  String @unique
+  roles Role[]
+}
+
+model User {
+  id               String         @id @default(uuid())
+  email            String         @unique
+  passwordHash     String
+  fullName         String
+  avatarUrl        String?
+  phoneNumber      String?
+  isVerified       Boolean        @default(false)
+  twoFactorEnabled Boolean        @default(false)
+  twoFactorSecret  String?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  roleId           String
+  role             Role           @relation(fields: [roleId], references: [id])
+  provider         Provider?
+  wallet           Wallet?
+  ordersAsClient   Order[]        @relation("ClientOrders")
+  sentMessages     Message[]      @relation("SentMessages")
+  notifications    Notification[]
+  reports          Report[]       @relation("ReportedBy")
+  tickets          SupportTicket[]
+  favorites        Favorite[]
+  activityLogs     ActivityLog[]
+  aiRequests       AIRequest[]
+  conversations    Conversation[] @relation("ConversationParticipants")
+}
+
+model Provider {
+  id               String            @id @default(uuid())
+  userId           String            @unique
+  user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bio              String?
+  skills           String[]
+  rating           Float             @default(0.0)
+  isApproved       Boolean           @default(false)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  services         Service[]
+  ordersAsProvider Order[]           @relation("ProviderOrders")
+  withdrawRequests WithdrawRequest[]
+}
+
+model Category {
+  id          String    @id @default(uuid())
+  name        String    @unique
+  slug        String    @unique
+  description String?
+  services    Service[]
+}
+
+model Service {
+  id          String     @id @default(uuid())
+  title       String
+  description String
+  price       Float
+  deliveryTime Int       // بالـأيام
+  providerId  String
+  provider    Provider   @relation(fields: [providerId], references: [id], onDelete: Cascade)
+  categoryId  String
+  category    Category   @relation(fields: [categoryId], references: [id])
+  imageUrl    String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  orders      Order[]
+  reviews     Review[]
+  favorites   Favorite[]
+}
+
+model Order {
+  id          String    @id @default(uuid())
+  clientId    String
+  client      User      @relation("ClientOrders", fields: [clientId], references: [id])
+  providerId  String
+  provider    Provider  @relation("ProviderOrders", fields: [providerId], references: [id])
+  serviceId   String
+  service     Service   @relation(fields: [serviceId], references: [id])
+  status      String    @default("PENDING") // PENDING, IN_PROGRESS, COMPLETED, CANCELLED
+  price       Float
+  deadline    DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  payments    Payment[]
+  reviews     Review[]
+}
+
+model Conversation {
+  id        String    @id @default(uuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  messages  Message[]
+  participants User[] @relation("ConversationParticipants")
+}
+
+model Message {
+  id             String       @id @default(uuid())
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  senderId       String
+  sender         User         @relation("SentMessages", fields: [senderId], references: [id])
+  content        String?
+  fileUrl        String?
+  fileType       String?      // TEXT, IMAGE, VOICE, FILE
+  isSeen         Boolean      @default(false)
+  createdAt      DateTime     @default(now())
+}
+
+model Wallet {
+  id           String        @id @default(uuid())
+  userId       String        @unique
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  balance      Float         @default(0.0)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  transactions Transaction[]
+}
+
+model Transaction {
+  id        String   @id @default(uuid())
+  walletId  String
+  wallet    Wallet   @relation(fields: [walletId], references: [id], onDelete: Cascade)
+  amount    Float
+  type      String   // DEPOSIT, WITHDRAW, PAYMENT, EARNING, REFUND
+  status    String   @default("PENDING") // PENDING, COMPLETED, FAILED
+  createdAt DateTime @default(now())
+}
+
+model Payment {
+  id            String   @id @default(uuid())
+  orderId       String
+  order         Order    @relation(fields: [orderId], references: [id])
+  paymentMethod String   // STRIPE, PAYPAL, LOCAL
+  status        String   // PENDING, COMPLETED, REFUNDED
+  transactionId String?
+  amount        Float
+  createdAt     DateTime @default(now())
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id])
+  serviceId String
+  service   Service  @relation(fields: [serviceId], references: [id])
+  rating    Int      // 1 to 5
+  comment   String?
+  createdAt DateTime @default(now())
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Report {
+  id           String   @id @default(uuid())
+  reportedById String
+  reportedBy   User     @relation("ReportedBy", fields: [reportedById], references: [id])
+  targetType   String   // USER, SERVICE, ORDER
+  targetId     String
+  reason       String
+  createdAt    DateTime @default(now())
+}
+
+model SupportTicket {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subject   String
+  message   String
+  status    String   @default("OPEN") // OPEN, CLOSED, IN_PROGRESS
+  createdAt DateTime @default(now())
+}
+
+model WithdrawRequest {
+  id         String   @id @default(uuid())
+  providerId String
+  provider   Provider @relation(fields: [providerId], references: [id], onDelete: Cascade)
+  amount     Float
+  status     String   @default("PENDING") // PENDING, APPROVED, REJECTED
+  createdAt  DateTime @default(now())
+}
+
+model Coupon {
+  id         String    @id @default(uuid())
+  code       String    @unique
+  discount   Float     
+  type       String    // PERCENTAGE, FLAT
+  expiryDate DateTime
+  isActive   Boolean   @default(true)
+}
+
+model Favorite {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  serviceId String
+  service   Service  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+
+model ActivityLog {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  action    String
+  ipAddress String?
+  createdAt DateTime @default(now())
+}
+
+model AIRequest {
+  id         String   @id @default(uuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  prompt     String
+  response   String
+  tokensUsed Int
+  createdAt  DateTime @default(now())
+}
+
+model Settings {
+  id        String @id @default(uuid())
+  key       String @unique
+  value     String
+}
