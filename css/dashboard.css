@@ -24,7 +24,7 @@ body {
 /* تخطيط الصفحة */
 .dashboard-container {
     display: flex;
-    min-vh: 100vh;
+    min-height: 100vh;
 }
 
 /* القائمة الجانبية */
