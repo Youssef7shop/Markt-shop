@@ -81,3 +81,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // ... باقي المسارات والروابط العامة والـ Sockets
+const path = require('path');
+
+// إتاحة المجلدات الثابتة للواجهة الأمامية
+app.use(express.static(path.join(__dirname, '../')));
+
+// توجيه المسار الرئيسي إلى صفحة تسجيل الدخول
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../pages/login.html'));
+});

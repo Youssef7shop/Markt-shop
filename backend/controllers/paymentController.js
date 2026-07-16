@@ -21,7 +21,7 @@ exports.createDepositSession = async (req, res) => {
           price_data: {
             currency: 'usd',
             product_data: {
-              name: 'شحن رصيد المحفظة - Boostify AI',
+              name: 'شحن رصيد المحفظة - Markt-shop',
               description: `إيداع آمن لمبلغ بقيمة $${amount} في رصيد حسابك الترويجي`,
             },
             unit_amount: Math.round(amount * 100), // القيمة بالسنت (Stripe يتعامل بأصغر وحدة نقدية)
