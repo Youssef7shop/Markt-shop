@@ -1,23 +1,24 @@
+// ملف: login.js
 import { supabase, getCurrentUserSession } from './supabase.js';
 
-let authMode = 'login'; // الوضع الافتراضي للنافذة
+let authMode = 'login'; // الوضع الافتراضي
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // 1. التحقق إذا كان المستخدم مسجلاً دخوله مسبقاً، نوجهه فوراً للمتجر
+    // التحقق إذا كان المستخدم مسجلاً دخوله مسبقاً، نوجهه فوراً للمتجر
     const session = await getCurrentUserSession();
     if (session) {
         window.location.href = 'index.html';
         return;
     }
 
-    // 2. مستمعات الأحداث لأزرار التبديل (Tabs)
+    // مستمعات الأحداث لأزرار التبديل (Tabs)
     document.getElementById('tab-login').addEventListener('click', () => switchMode('login'));
     document.getElementById('tab-register').addEventListener('click', () => switchMode('register'));
 
-    // 3. مستمع حدث نموذج البريد الإلكتروني وكلمة المرور
+    // مستمع حدث نموذج البريد الإلكتروني وكلمة المرور
     document.getElementById('auth-form').addEventListener('submit', handleAuthSubmit);
 
-    // 4. مستمع حدث زر Google OAuth الجديد
+    // مستمع حدث زر Google OAuth
     document.getElementById('btn-google-login').addEventListener('click', handleGoogleLogin);
 });
 
@@ -48,7 +49,7 @@ function switchMode(mode) {
     }
 }
 
-// دالة معالجة المصادقة التقليدية (Email / Password)
+// دالة معالجة المصادقة وإنشاء الحساب
 async function handleAuthSubmit(e) {
     e.preventDefault();
     const btn = document.getElementById('btn-auth-submit');
@@ -57,29 +58,33 @@ async function handleAuthSubmit(e) {
 
     btn.disabled = true;
     const originalContent = btn.innerHTML;
-    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري التحقق...';
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري المعالجة...';
 
     try {
         if (authMode === 'login') {
-            // تسجيل الدخول العادي
-            const { error } = await supabase.auth.signInWithPassword({ email, password });
+            // 1. تسجيل الدخول العادي
+            const { data, error } = await supabase.auth.signInWithPassword({ email, password });
             if (error) throw error;
             
+            // التوجيه فوراً للموقع عند نجاح الدخول
             window.location.href = 'index.html';
         } else {
-            // إنشاء الحساب العادي الجديد
+            // 2. إنشاء الحساب الجديد وحفظ البيانات
             const fullName = document.getElementById('user-fullname').value.trim();
             
-            const { error } = await supabase.auth.signUp({
+            const { data, error } = await supabase.auth.signUp({
                 email,
                 password,
                 options: {
-                    data: { full_name: fullName } // تمرير الاسم لقاعدة البيانات ليقوم الـ Trigger بالتقاطه
+                    data: { full_name: fullName } // يتم حفظ الاسم داخل حقول الـ User Metadata في الـ Auth
                 }
             });
             if (error) throw error;
 
-            alert('🎉 تم إنشاء الحساب بنجاح! تم شحن محفظتك بـ 100$ كهدية ترحيبية.');
+            // بما أن خيار Confirm Email مغلق، فإن Supabase تسجل دخوله تلقائياً هنا
+            alert('🎉 تم إنشاء حسابك بنجاح! جاري تحويلك للمنصة...');
+            
+            // التوجيه التلقائي الفوري للموقع دون الحاجة للذهاب لصفحة الدخول مرة أخرى
             window.location.href = 'index.html';
         }
     } catch (err) {
@@ -90,7 +95,7 @@ async function handleAuthSubmit(e) {
     }
 }
 
-// دالة تسجيل الدخول السحابي السريع عبر جيت واي Google
+// دالة تسجيل الدخول عبر Google
 async function handleGoogleLogin() {
     const btn = document.getElementById('btn-google-login');
     btn.disabled = true;
@@ -100,7 +105,6 @@ async function handleGoogleLogin() {
         const { error } = await supabase.auth.signInWithOAuth({
             provider: 'google',
             options: {
-                // بعد إتمام العميل للدخول في صفحة جوجل الآمنة، يعيده المتصفح تلقائياً للمتجر رئيسياً
                 redirectTo: window.location.origin + '/index.html'
             }
         });
