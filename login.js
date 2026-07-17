@@ -1,24 +1,27 @@
 import { supabase, getCurrentUserSession } from './supabase.js';
 
-let authMode = 'login'; // الوضع الافتراضي: تسجيل الدخول
+let authMode = 'login'; // الوضع الافتراضي للنافذة
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // التحقق إذا كان المستخدم مسجلاً دخوله بالفعل، نقوم بنقله فوراً للمتجر
+    // 1. التحقق إذا كان المستخدم مسجلاً دخوله مسبقاً، نوجهه فوراً للمتجر
     const session = await getCurrentUserSession();
     if (session) {
         window.location.href = 'index.html';
         return;
     }
 
-    // تفعيل أزرار التبديل بين الدخول والتسجيل
+    // 2. مستمعات الأحداث لأزرار التبديل (Tabs)
     document.getElementById('tab-login').addEventListener('click', () => switchMode('login'));
     document.getElementById('tab-register').addEventListener('click', () => switchMode('register'));
 
-    // التقاط حدث إرسال النموذج
+    // 3. مستمع حدث نموذج البريد الإلكتروني وكلمة المرور
     document.getElementById('auth-form').addEventListener('submit', handleAuthSubmit);
+
+    // 4. مستمع حدث زر Google OAuth الجديد
+    document.getElementById('btn-google-login').addEventListener('click', handleGoogleLogin);
 });
 
-// دالة التبديل البصري والبرمجي
+// دالة التبديل البصري بين وضعي الدخول والتسجيل
 function switchMode(mode) {
     authMode = mode;
     const tabLogin = document.getElementById('tab-login');
@@ -45,7 +48,7 @@ function switchMode(mode) {
     }
 }
 
-// دالة معالجة البيانات وإرسالها إلى Supabase
+// دالة معالجة المصادقة التقليدية (Email / Password)
 async function handleAuthSubmit(e) {
     e.preventDefault();
     const btn = document.getElementById('btn-auth-submit');
@@ -58,21 +61,20 @@ async function handleAuthSubmit(e) {
 
     try {
         if (authMode === 'login') {
-            // تنفيذ تسجيل الدخول
+            // تسجيل الدخول العادي
             const { error } = await supabase.auth.signInWithPassword({ email, password });
             if (error) throw error;
             
             window.location.href = 'index.html';
         } else {
-            // تنفيذ إنشاء حساب جديد
+            // إنشاء الحساب العادي الجديد
             const fullName = document.getElementById('user-fullname').value.trim();
             
             const { error } = await supabase.auth.signUp({
                 email,
                 password,
                 options: {
-                    // نمرر الاسم الكامل في البيانات التعريفية (Metadata) ليقوم تريجر SQL بالالتقاط الآلي
-                    data: { full_name: fullName }
+                    data: { full_name: fullName } // تمرير الاسم لقاعدة البيانات ليقوم الـ Trigger بالتقاطه
                 }
             });
             if (error) throw error;
@@ -85,5 +87,28 @@ async function handleAuthSubmit(e) {
     } finally {
         btn.disabled = false;
         btn.innerHTML = originalContent;
+    }
+}
+
+// دالة تسجيل الدخول السحابي السريع عبر جيت واي Google
+async function handleGoogleLogin() {
+    const btn = document.getElementById('btn-google-login');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري الاتصال بـ Google...';
+
+    try {
+        const { error } = await supabase.auth.signInWithOAuth({
+            provider: 'google',
+            options: {
+                // بعد إتمام العميل للدخول في صفحة جوجل الآمنة، يعيده المتصفح تلقائياً للمتجر رئيسياً
+                redirectTo: window.location.origin + '/index.html'
+            }
+        });
+        
+        if (error) throw error;
+    } catch (err) {
+        alert('⚠️ خطأ أثناء الاتصال بـ Google: ' + err.message);
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-brands fa-google" style="color: #ea4335;"></i> تسجيل الدخول بواسطة Google';
     }
 }
