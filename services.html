@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>كتالوج الخدمات الذكية | Boostify AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="dashboard.css">
+  <link rel="stylesheet" href="services.css">
+</head>
+<body>
+
+  <div class="dashboard-wrapper">
+    
+    <!-- السايدبار الجانبي للمنصة -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <span class="logo-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+        <span class="logo-text">Boostify<span class="gradient-text">AI</span></span>
+      </div>
+      
+      <div class="user-profile-summary">
+        <div class="avatar-container">
+          <img id="userAvatar" src="https://via.placeholder.com/150" alt="الملف الشخصي">
+          <span class="status-indicator online"></span>
+        </div>
+        <h4 id="userFullName">جاري التحميل...</h4>
+        <p id="userRole">عضو المنصة</p>
+      </div>
+
+      <nav class="sidebar-menu">
+        <a href="dashboard.html" class="menu-item" id="navDashboardLink">
+          <i class="fa-solid fa-chart-pie"></i> <span>لوحة التحكم</span>
+        </a>
+        <a href="services.html" class="menu-item active">
+          <i class="fa-solid fa-store"></i> <span>سوق الخدمات</span>
+        </a>
+        <a href="messages.html" class="menu-item">
+          <i class="fa-solid fa-comment-dots"></i> <span>المحادثات</span>
+        </a>
+        <a href="settings.html" class="menu-item">
+          <i class="fa-solid fa-gear"></i> <span>الإعدادات</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button id="logoutBtn" class="btn-logout">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> <span>تسجيل الخروج</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- منطقة العمل الرئيسية -->
+    <main class="main-content">
+      
+      <!-- الهيدر العلوي -->
+      <header class="header">
+        <div class="header-right">
+          <button class="toggle-sidebar-btn" id="toggleSidebar" aria-label="Toggle Sidebar">
+            <i class="fa-solid fa-bars-staggered"></i>
+          </button>
+          <div class="welcome-message">
+            <h3>سوق خدمات الذكاء الاصطناعي 🛒</h3>
+            <p>تصفح واطلب أفضل حلول ونماذج الذكاء الاصطناعي من خبراء معتمدين.</p>
+          </div>
+        </div>
+        
+        <div class="header-left">
+          <div class="ai-quick-btn">
+            <i class="fa-solid fa-shield-halved"></i> <span>دفع آمن 100%</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- معرض الخدمات وعناصر التحكم -->
+      <div class="content-body">
+        
+        <!-- قسم تصفية وتصنيف الخدمات -->
+        <div class="catalog-filter-bar">
+          <button class="filter-chip active" data-category="all">الكل</button>
+          <button class="filter-chip" data-category="nlp">معالجة اللغات NLP</button>
+          <button class="filter-chip" data-category="vision">الرؤية الحاسوبية</button>
+          <button class="filter-chip" data-category="integration">دمج النماذج الذكية</button>
+        </div>
+
+        <!-- شبكة عرض الخدمات التفاعلية -->
+        <div class="services-grid" id="servicesGrid">
+          <div class="loading-full-width">
+            <div class="spinner-inline"></div> جاري تحميل كتالوج الخدمات السحابية...
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- النافذة المنبثقة لمحاكاة دفع Stripe (Stripe Checkout Mock Modal) -->
+  <div class="stripe-modal-overlay hidden" id="stripeModal">
+    <div class="stripe-modal-container">
+      
+      <button class="close-modal-btn" id="closeStripeModal" aria-label="Close modal">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <!-- ترويسة بوابة Stripe -->
+      <div class="stripe-header">
+        <span class="stripe-logo"><i class="fa-brands fa-stripe"></i></span>
+        <div class="stripe-secured-badge">
+          <i class="fa-solid fa-lock"></i> بيئة تجريبية آمنة
+        </div>
+      </div>
+
+      <!-- محتوى الدفع والبطاقة التفاعلية -->
+      <div class="stripe-checkout-body">
+        
+        <!-- ملخص الطلب المراد شراؤه -->
+        <div class="checkout-order-summary">
+          <div>
+            <span class="summary-label">الخدمة المحددة:</span>
+            <h4 id="checkoutServiceTitle" class="summary-value">...</h4>
+          </div>
+          <div class="summary-price-box">
+            <span class="summary-label">المبلغ الإجمالي</span>
+            <h2 id="checkoutServicePrice" class="price-value">$0.00</h2>
+          </div>
+        </div>
+
+        <!-- شكل البطاقة البلاستيكية التفاعلي -->
+        <div class="credit-card-preview">
+          <div class="card-glow-bg"></div>
+          <div class="card-inner-brand">
+            <i class="fa-solid fa-wifi"></i>
+            <span class="card-brand-icon"><i class="fa-brands fa-cc-visa"></i></span>
+          </div>
+          <div class="card-number-display" id="cardNumDisplay">•••• •••• •••• ••••</div>
+          <div class="card-footer-info">
+            <div class="card-holder">
+              <span class="card-mini-label">اسم حامل البطاقة</span>
+              <div class="card-mini-val" id="cardHolderDisplay">BOOSTIFY CLIENT</div>
+            </div>
+            <div class="card-expiry">
+              <span class="card-mini-label">تنتهي في</span>
+              <div class="card-mini-val" id="cardExpiryDisplay">MM/YY</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- استمارة إدخال معلومات بطاقة الدفع -->
+        <form id="stripePaymentForm" autocomplete="off">
+          
+          <div class="form-group">
+            <label for="cardName">الاسم على البطاقة</label>
+            <input type="text" id="cardName" placeholder="John Doe" required>
+          </div>
+
+          <div class="form-group">
+            <label for="cardNumber">رقم البطاقة الائتمانية</label>
+            <div class="input-icon-wrapper">
+              <i class="fa-regular fa-credit-card"></i>
+              <input type="text" id="cardNumber" placeholder="4242 4242 4242 4242" maxlength="19" required>
+            </div>
+            <small style="color:var(--text-secondary); font-size:0.75rem;">استخدم رقم الاختبار الموحد: 4242 للدفع التجريبي</small>
+          </div>
+
+          <div class="form-row-double">
+            <div class="form-group">
+              <label for="cardExpiry">تاريخ الانتهاء</label>
+              <input type="text" id="cardExpiry" placeholder="MM/YY" maxlength="5" required>
+            </div>
+            <div class="form-group">
+              <label for="cardCvv">رمز الأمان (CVV)</label>
+              <input type="password" id="cardCvv" placeholder="•••" maxlength="3" required>
+            </div>
+          </div>
+
+          <!-- زر تأكيد الدفع مع الحالات التفاعلية -->
+          <button type="submit" class="stripe-pay-btn" id="stripePayBtn">
+            <span id="payBtnText"><i class="fa-solid fa-shield"></i> دفع وتأكيد المعاملة</span>
+            <div class="spinner-inline hidden" id="payBtnSpinner"></div>
+          </button>
+
+          <p class="stripe-disclaimer">
+            بالنقر على الزر أعلاه، فإنك توافق على شروط الخدمة وتفوض منصتنا بخصم القيمة الافتراضية المحددة لتأكيد الطلب.
+          </p>
+
+        </form>
+
+      </div>
+
+    </div>
+  </div>
+
+  <script type="module" src="services.js"></script>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>المحادثات الفورية | Boostify AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="dashboard.css">
+  <link rel="stylesheet" href="messages.css">
+</head>
+<body>
+
+  <div class="dashboard-wrapper">
+    
+    <!-- السايدبار الجانبي (المشترك) -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <span class="logo-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+        <span class="logo-text">Boostify<span class="gradient-text">AI</span></span>
+      </div>
+      
+      <div class="user-profile-summary">
+        <div class="avatar-container">
+          <img id="userAvatar" src="https://via.placeholder.com/150" alt="الملف الشخصي">
+          <span class="status-indicator online"></span>
+        </div>
+        <h4 id="userFullName">جاري التحميل...</h4>
+        <p id="userRole">عضو المنصة</p>
+      </div>
+
+      <nav class="sidebar-menu">
+        <a href="dashboard.html" class="menu-item" id="navDashboardLink">
+          <i class="fa-solid fa-chart-pie"></i> <span>لوحة التحكم</span>
+        </a>
+        <a href="messages.html" class="menu-item active">
+          <i class="fa-solid fa-comment-dots"></i> <span>المحادثات</span>
+          <span class="badge hidden" id="messagesBadge">0</span>
+        </a>
+        <a href="settings.html" class="menu-item">
+          <i class="fa-solid fa-gear"></i> <span>الإعدادات</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button id="logoutBtn" class="btn-logout">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> <span>تسجيل الخروج</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- منطقة العمل والمحادثات -->
+    <main class="main-content">
+      
+      <!-- الهيدر العلوي -->
+      <header class="header">
+        <div class="header-right">
+          <button class="toggle-sidebar-btn" id="toggleSidebar" aria-label="Toggle Sidebar">
+            <i class="fa-solid fa-bars-staggered"></i>
+          </button>
+          <div class="welcome-message">
+            <h3>صندوق المحادثات والاتفاقيات 💬</h3>
+            <p>تواصل مباشرة مع الطرف الآخر لمتابعة تفاصيل المشاريع والطلبات.</p>
+          </div>
+        </div>
+      </header>
+
+      <!-- حاوية الشات الكبرى (Split Screen Container) -->
+      <div class="content-body messages-body-full">
+        
+        <div class="chat-main-container">
+          
+          <!-- الجانب الأيمن: قائمة غرف الدردشة النشطة -->
+          <div class="chat-rooms-sidebar" id="chatRoomsSidebar">
+            <div class="rooms-search-box">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" id="roomsSearchInput" placeholder="بحث عن محادثة...">
+            </div>
+            
+            <div class="rooms-list-scrollable" id="roomsContainer">
+              <!-- عرض مؤشر تحميل ذكي -->
+              <div class="rooms-loading">
+                <div class="spinner-inline"></div> جاري تحميل غرف الدردشة...
+              </div>
+            </div>
+          </div>
+
+          <!-- الجانب الأيسر: نافذة المحادثة النشطة -->
+          <div class="chat-window-viewport" id="chatWindowViewport">
+            
+            <!-- الحالة الافتراضية: لم يتم اختيار محادثة بعد -->
+            <div class="chat-empty-state" id="chatEmptyState">
+              <div class="empty-icon-wrapper">
+                <i class="fa-solid fa-comments"></i>
+              </div>
+              <h3>ابدأ التواصل الآن</h3>
+              <p>اختر إحدى المحادثات النشطة من القائمة الجانبية لبدء التراسل الفوري والاتفاق على المشاريع.</p>
+            </div>
+
+            <!-- نافذة الدردشة الفعلية (مخفية افتراضياً) -->
+            <div class="chat-active-box hidden" id="chatActiveBox">
+              
+              <!-- ترويسة الشات ومعلومات الطرف الآخر -->
+              <div class="chat-active-header">
+                <div class="partner-meta">
+                  <div class="partner-avatar-wrapper">
+                    <img id="activePartnerAvatar" src="https://via.placeholder.com/150" alt="صورة المستخدم">
+                    <span class="partner-status online"></span>
+                  </div>
+                  <div class="partner-info-text">
+                    <h4 id="activePartnerName">جاري التحميل...</h4>
+                    <span id="activePartnerRole">عضو المنصة</span>
+                  </div>
+                </div>
+                
+                <div class="chat-header-actions">
+                  <button class="header-action-btn" id="viewProjectDetailsBtn" title="تفاصيل المشروع">
+                    <i class="fa-solid fa-folder-open"></i>
+                  </button>
+                  <button class="header-action-btn close-chat-mobile" id="closeChatMobileBtn" title="رجوع للقائمة">
+                    <i class="fa-solid fa-arrow-left"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- منطقة عرض الرسائل (Scrollable) -->
+              <div class="chat-messages-area" id="chatMessagesArea">
+                <!-- الرسائل المتبادلة تُحقن هنا ديناميكياً -->
+              </div>
+
+              <!-- صندوق الإدخال والإرسال السفلي -->
+              <div class="chat-input-footer">
+                <form id="chatMessageForm" autocomplete="off">
+                  <button type="button" class="input-utility-btn" id="attachFileBtn" title="إرفاق ملف">
+                    <i class="fa-solid fa-paperclip"></i>
+                  </button>
+                  
+                  <input type="text" id="chatMessageInput" placeholder="اكتب رسالتك هنا..." required>
+                  
+                  <button type="submit" class="send-message-btn" id="sendMessageBtn">
+                    <i class="fa-solid fa-paper-plane"></i>
+                  </button>
+                </form>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <script type="module" src="messages.js"></script>
+</body>
+</html>

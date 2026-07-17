@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة تحكم الخبير | Boostify AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="dashboard.css"> <!-- إعادة استخدام الهيكل الأساسي للتناسق -->
+</head>
+<body>
+
+  <div class="dashboard-wrapper">
+    
+    <!-- شريط التنقل الجانبي للمزود -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <span class="logo-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+        <span class="logo-text">Boostify<span class="gradient-text">AI</span></span>
+      </div>
+      
+      <div class="user-profile-summary">
+        <div class="avatar-container">
+          <img id="providerAvatar" src="https://via.placeholder.com/150" alt="صورة خبير الذكاء الاصطناعي">
+          <span class="status-indicator online"></span>
+        </div>
+        <h4 id="providerFullName">جاري التحميل...</h4>
+        <p id="providerRole">خبير ذكاء اصطناعي</p>
+      </div>
+
+      <nav class="sidebar-menu">
+        <a href="provider-dashboard.html" class="menu-item active">
+          <i class="fa-solid fa-chart-line"></i> <span>لوحة التحكم</span>
+        </a>
+        <a href="provider-orders.html" class="menu-item">
+          <i class="fa-solid fa-boxes-stacked"></i> <span>الطلبات الواردة</span>
+        </a>
+        <a href="my-services.html" class="menu-item">
+          <i class="fa-solid fa-circle-plus"></i> <span>خدماتي المعروضة</span>
+        </a>
+        <a href="provider-wallet.html" class="menu-item">
+          <i class="fa-solid fa-money-bill-trend-up"></i> <span>الأرباح والمالية</span>
+        </a>
+        <a href="messages.html" class="menu-item">
+          <i class="fa-solid fa-comment-dots"></i> <span>محادثات العملاء</span>
+          <span class="badge hidden" id="providerMessagesBadge">0</span>
+        </a>
+        <a href="provider-settings.html" class="menu-item">
+          <i class="fa-solid fa-user-gear"></i> <span>ملفي الشخصي</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button id="logoutBtn" class="btn-logout">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> <span>تسجيل الخروج</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- منطقة العمل الرئيسية -->
+    <main class="main-content">
+      
+      <!-- الهيدر العلوي -->
+      <header class="header">
+        <div class="header-right">
+          <button class="toggle-sidebar-btn" id="toggleSidebar" aria-label="Toggle Sidebar">
+            <i class="fa-solid fa-bars-staggered"></i>
+          </button>
+          <div class="welcome-message">
+            <h3>مرحباً بك، كابتن <span id="providerGreetingName">...</span> 🚀</h3>
+            <p>إليك أداء مبيعاتك وطلبات العمل الموكلة إليك حالياً.</p>
+          </div>
+        </div>
+
+        <div class="header-left">
+          <!-- تنبيهات النظام والمبيعات -->
+          <div class="notification-wrapper">
+            <button class="icon-btn" id="notificationBtn" aria-label="Notifications">
+              <i class="fa-solid fa-bell"></i>
+              <span class="badge hidden" id="providerNotifBadge">0</span>
+            </button>
+          </div>
+
+          <div class="ai-quick-btn spec-provider">
+            <i class="fa-solid fa-bolt"></i> <span>مؤشر الأداء: ممتاز</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- متن لوحة التحكم والبيانات الإحصائية للمزود -->
+      <div class="content-body">
+        
+        <section class="stats-grid">
+          <div class="stat-card">
+            <div class="card-icon green"><i class="fa-solid fa-money-bill-wave"></i></div>
+            <div class="card-info">
+              <p class="stat-title">صافي الأرباح</p>
+              <h3 class="stat-value" id="totalEarnings">$0.00</h3>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="card-icon amber"><i class="fa-solid fa-hourglass-half"></i></div>
+            <div class="card-info">
+              <p class="stat-title">طلبات بانتظار التنفيذ</p>
+              <h3 class="stat-value" id="pendingOrdersCount">0</h3>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="card-icon blue"><i class="fa-solid fa-list-check"></i></div>
+            <div class="card-info">
+              <p class="stat-title">طلبات قيد العمل</p>
+              <h3 class="stat-value" id="progressOrdersCount">0</h3>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="card-icon purple"><i class="fa-solid fa-star"></i></div>
+            <div class="card-info">
+              <p class="stat-title">تقييم العملاء</p>
+              <h3 class="stat-value" id="providerRating">4.9</h3>
+            </div>
+          </div>
+        </section>
+
+        <!-- التخطيط المزدوج للطلبات وتحليلات الأداء السريعة -->
+        <div class="dashboard-layout-grid">
+          
+          <!-- جدول إدارة الطلبات الموكلة -->
+          <div class="dashboard-card main-table-card">
+            <div class="card-header">
+              <h3>طلبات العملاء الواردة حديثاً</h3>
+              <a href="provider-orders.html" class="view-all-link">إدارة كافة الطلبات <i class="fa-solid fa-arrow-left"></i></a>
+            </div>
+            <div class="table-responsive">
+              <table class="custom-table">
+                <thead>
+                  <tr>
+                    <th>رقم الطلب</th>
+                    <th>الخدمة المطلوبة</th>
+                    <th>العميل</th>
+                    <th>التاريخ</th>
+                    <th>ربحك الصافي</th>
+                    <th>الحالة</th>
+                    <th>تحديث سريع للعمل</th>
+                  </tr>
+                </thead>
+                <tbody id="incomingOrdersTableBody">
+                  <tr>
+                    <td colspan="7" class="loading-td">
+                      <div class="spinner-inline"></div> جاري سحب طلباتك النشطة من خوادم Firestore...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- بطاقة تحليل كفاءة المبيعات بالذكاء الاصطناعي -->
+          <div class="dashboard-card ai-recommendation-card">
+            <div class="card-header">
+              <h3><i class="fa-solid fa-chart-pie"></i> ذكاء الأعمال المالي</h3>
+            </div>
+            <div class="ai-widget-content">
+              <p>يقوم النظام بتحليل نشاطك وعروضك بانتظام لمساعدتك على رفع سقف أرباحك الشهرية.</p>
+              
+              <div class="analytics-progress-wrapper" style="margin-top:1.5rem;">
+                <div style="display:flex; justify-content:space-between; font-size:0.8rem; margin-bottom:0.4rem;">
+                  <span>نسبة الالتزام بالتسليم</span>
+                  <span style="color:var(--success);">98%</span>
+                </div>
+                <div style="width:100%; height:6px; background:rgba(255,255,255,0.05); border-radius:10px; overflow:hidden;">
+                  <div style="width:98%; height:100%; background:var(--success);"></div>
+                </div>
+              </div>
+
+              <div class="analytics-progress-wrapper" style="margin-top:1.2rem;">
+                <div style="display:flex; justify-content:space-between; font-size:0.8rem; margin-bottom:0.4rem;">
+                  <span>معدل قبول العروض</span>
+                  <span style="color:var(--accent-glow);">84%</span>
+                </div>
+                <div style="width:100%; height:6px; background:rgba(255,255,255,0.05); border-radius:10px; overflow:hidden;">
+                  <div style="width:84%; height:100%; background:var(--accent-glow);"></div>
+                </div>
+              </div>
+              
+              <div style="margin-top: 1.5rem; padding: 0.8rem; background: rgba(16, 185, 129, 0.05); border: 1px dashed rgba(16, 185, 129, 0.2); border-radius: 8px; font-size: 0.8rem; line-height: 1.5;">
+                <i class="fa-solid fa-lightbulb" style="color:var(--warning); margin-left:0.3rem;"></i> 
+                <strong>نصيحة Boostify الذكية:</strong> إضافة نماذج توليد صور (Stable Diffusion XL) إلى معرض أعمالك قد يرفع مبيعاتك بنسبة تصل إلى 22% هذا الأسبوع!
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <script type="module" src="provider-dashboard.js"></script>
+</body>
+</html>
