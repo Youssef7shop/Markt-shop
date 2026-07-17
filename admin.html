@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boostify AI - لوحة الإدارة</title>
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- شريط التنقل الجانبي الخاص بالإدارة -->
+        <aside class="sidebar admin-sidebar">
+            <div class="sidebar-brand">
+                <i class="fa-solid fa-user-shield brand-icon"></i>
+                <h2>Admin <span>Panel</span></h2>
+            </div>
+            <nav class="sidebar-menu">
+                <a href="index.html" class="menu-item"><i class="fa-solid fa-house"></i><span>واجهة المتجر</span></a>
+                <a href="admin.html" class="menu-item active"><i class="fa-solid fa-briefcase"></i><span>إدارة العمليات</span></a>
+            </nav>
+        </aside>
+
+        <!-- المحتوى الرئيسي للإدارة -->
+        <main class="main-content">
+            <header class="app-header">
+                <h3><i class="fa-solid fa-sliders"></i> مركز التحكم وإدارة المنصة</h3>
+            </header>
+
+            <div class="dashboard-viewport">
+                
+                <!-- قسم إدارة الطلبات -->
+                <div class="admin-section">
+                    <div class="section-header">
+                        <h4><i class="fa-solid fa-list-check"></i> الطلبات الواردة من العملاء</h4>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>رقم الطلب</th>
+                                    <th>الخدمة المطلوبة</th>
+                                    <th>السعر</th>
+                                    <th>التاريخ</th>
+                                    <th>حالة الطلب (تحديث)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-orders-body">
+                                <tr>
+                                    <td colspan="5" class="text-center text-muted py-4">
+                                        <i class="fa-solid fa-spinner fa-spin"></i> جاري تحميل الطلبات...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- قسم إضافة خدمة جديدة -->
+                <div class="admin-section mt-4">
+                    <div class="section-header">
+                        <h4><i class="fa-solid fa-plus-square"></i> إضافة خدمة ذكية جديدة للسوق</h4>
+                    </div>
+                    <div class="form-container">
+                        <form id="add-service-form" class="flat-form admin-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>عنوان الخدمة</label>
+                                    <input type="text" id="srv-title" required placeholder="مثال: بناء نموذج ذكاء توليدي">
+                                </div>
+                                <div class="form-group">
+                                    <label>التصنيف (الفئة)</label>
+                                    <select id="srv-category" required>
+                                        <option value="">جاري تحميل الفئات...</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>سعر الخدمة ($)</label>
+                                    <input type="number" id="srv-price" required min="1" placeholder="99.00">
+                                </div>
+                                <div class="form-group">
+                                    <label>رابط صورة الغلاف (URL)</label>
+                                    <input type="url" id="srv-image" required placeholder="https://example.com/image.jpg">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>وصف الخدمة التفصيلي</label>
+                                <textarea id="srv-desc" rows="4" required placeholder="اشرح للعميل ما الذي سيحصل عليه..."></textarea>
+                            </div>
+
+                            <button type="submit" class="btn-primary-action" id="btn-add-service">
+                                <i class="fa-solid fa-cloud-arrow-up"></i> نشر الخدمة في السوق
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script type="module" src="admin.js"></script>
+</body>
+</html>

@@ -1,164 +1,86 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Boostify AI | منصة خدمات الذكاء الاصطناعي الذكية</title>
-  <!-- خطوط Google الخط الاحترافي Cairo -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-  <!-- مكتبة الأيقونات FontAwesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="index.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boostify AI - سوق الخدمات الذكية</title>
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- مكتبة Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
-  <!-- شريط التنقل العلوي -->
-  <header class="navbar">
-    <div class="nav-container">
-      <div class="logo">
-        <span class="logo-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
-        <span class="logo-text">Boostify<span class="gradient-text">AI</span></span>
-      </div>
-      
-      <nav class="nav-links">
-        <a href="#hero" class="active">الرئيسية</a>
-        <a href="#features">المميزات</a>
-        <a href="#stats">إحصائياتنا</a>
-        <a href="#services">خدماتنا</a>
-        <a href="#faq">الأسئلة الشائعة</a>
-      </nav>
+    <div class="app-container">
+        <!-- القائمة الجانبية للعميل -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <i class="fa-solid fa-robot brand-icon"></i>
+                <h2>Boostify <span>AI</span></h2>
+            </div>
+            <nav class="sidebar-menu">
+                <a href="index.html" class="menu-item active"><i class="fa-solid fa-store"></i><span>سوق الخدمات</span></a>
+                <a href="wallet.html" class="menu-item" id="btn-open-wallet"><i class="fa-solid fa-wallet"></i><span>المحفظة الرقمية</span></a>
+                <!-- رابط للإدارة يظهر لاحقاً إذا رغبت ببرمجته للمشرفين فقط، حالياً يمكن تركه -->
+                <a href="admin.html" class="menu-item"><i class="fa-solid fa-user-shield"></i><span>لوحة الإدارة</span></a>
+                <a href="#" class="menu-item" id="btn-logout" style="color: var(--danger); margin-top: auto;">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i><span>تسجيل الخروج</span>
+                </a>
+            </nav>
+        </aside>
 
-      <div class="nav-auth-buttons" id="authActionContainer">
-        <!-- يتم التحكم بها ديناميكياً بواسطة index.js -->
-        <a href="login.html" class="btn-outline">تسجيل الدخول</a>
-        <a href="register.html" class="btn-primary">ابدأ مجاناً</a>
-      </div>
+        <!-- المحتوى الرئيسي (السوق) -->
+        <main class="main-content">
+            <header class="app-header">
+                <h3><i class="fa-solid fa-layer-group"></i> استكشف خدمات الذكاء الاصطناعي</h3>
+                <div class="user-header-info">
+                    <div class="wallet-badge" id="btn-header-wallet">
+                        <i class="fa-solid fa-coins"></i> 
+                        <span id="user-balance-display">0.00</span>$
+                    </div>
+                    <span id="user-name-display" class="user-name">جاري التحميل...</span>
+                </div>
+            </header>
 
-      <button class="mobile-toggle" aria-label="Toggle menu" id="mobileMenuBtn">
-        <i class="fa-solid fa-bars"></i>
-      </button>
-    </div>
-  </header>
+            <div class="dashboard-viewport">
+                <!-- أزرار تصفية الفئات -->
+                <div class="categories-filter" id="categories-container">
+                    <button class="category-btn active" data-id="all">الكل</button>
+                    <!-- سيتم حقن الفئات هنا بواسطة JS -->
+                </div>
 
-  <!-- الجزء الخاص بالهاتف المحمول (Sidebar) -->
-  <div class="mobile-sidebar" id="mobileSidebar">
-    <div class="sidebar-header">
-      <span class="logo-text">Boostify<span class="gradient-text">AI</span></span>
-      <button id="closeSidebarBtn"><i class="fa-solid fa-xmark"></i></button>
+                <!-- شبكة عرض الخدمات -->
+                <div class="services-grid" id="services-container">
+                    <div class="loading-state">
+                        <i class="fa-solid fa-spinner fa-spin"></i> جاري تحميل الخدمات...
+                    </div>
+                    <!-- سيتم حقن البطاقات هنا -->
+                </div>
+            </div>
+        </main>
     </div>
-    <div class="sidebar-links">
-      <a href="#hero" class="sidebar-link">الرئيسية</a>
-      <a href="#features" class="sidebar-link">المميزات</a>
-      <a href="#stats" class="sidebar-link">إحصائياتنا</a>
-      <a href="#services" class="sidebar-link">خدماتنا</a>
-      <a href="#faq" class="sidebar-link">الأسئلة الشائعة</a>
-    </div>
-    <div class="sidebar-auth" id="mobileAuthContainer">
-      <a href="login.html" class="btn-outline w-100">تسجيل الدخول</a>
-      <a href="register.html" class="btn-primary w-100 mt-10">ابدأ مجاناً</a>
-    </div>
-  </div>
 
-  <!-- واجهة الهيرو (Hero Section) -->
-  <section class="hero-section" id="hero">
-    <div class="glow-bg glow-1"></div>
-    <div class="glow-bg glow-2"></div>
-    <div class="hero-container">
-      <div class="hero-badge"><i class="fa-solid fa-sparkles"></i> عصر جديد من الإنتاجية الذكية</div>
-      <h1 class="hero-title">ضاعف إنتاجيتك وقدرات عملك بالذكاء الاصطناعي</h1>
-      <p class="hero-subtitle">المنصة الأولى والأساس لربط المحترفين ومقدمي خدمات الذكاء الاصطناعي الأكثر تطوراً بالعملاء والشركات لإنتاج أعمال استثنائية.</p>
-      <div class="hero-actions">
-        <a href="register.html" class="btn-primary btn-large">استكشف الخدمات الذكية <i class="fa-solid fa-arrow-left"></i></a>
-        <a href="#features" class="btn-secondary btn-large">كيف نعمل؟</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- قسم الإحصائيات الحية (Live Stats) -->
-  <section class="stats-section" id="stats">
-    <div class="section-header">
-      <h2 class="section-title">إحصائيات حية ومباشرة من المنصة</h2>
-      <p class="section-desc">أرقام تنمو في كل ثانية بفضل ثقة عملائنا في مختلف أنحاء العالم.</p>
-    </div>
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
-        <h3 class="stat-value" id="statUsers">0</h3>
-        <p class="stat-label">مستخدم نشط</p>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon"><i class="fa-solid fa-circle-check"></i></div>
-        <h3 class="stat-value" id="statOrders">0</h3>
-        <p class="stat-label">طلب مكتمل</p>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon"><i class="fa-solid fa-cubes"></i></div>
-        <h3 class="stat-value" id="statServices">0</h3>
-        <p class="stat-label">خدمة ذكية متوفرة</p>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon"><i class="fa-solid fa-wallet"></i></div>
-        <h3 class="stat-value" id="statPayouts">0</h3>
-        <p class="stat-label">إجمالي المدفوعات ($)</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- قسم المميزات (Features) -->
-  <section class="features-section" id="features">
-    <div class="section-header">
-      <h2 class="section-title">لماذا تختار <span class="gradient-text">Boostify AI</span>؟</h2>
-      <p class="section-desc">نوفر لك بيئة عمل ذكية مجهزة بالكامل لتجربة خالية من التعقيد وضمان الأمان التام للطرفين.</p>
-    </div>
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon"><i class="fa-solid fa-bolt"></i></div>
-        <h3>سرعة فائقة بالذكاء الاصطناعي</h3>
-        <p>نظام ذكي متطور يطابق طلبك مع أفضل مقدم خدمة مهيأ تماماً لمتطلباتك الخاصة.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
-        <h3>نظام حماية دفع آمن</h3>
-        <p>أموالك في أمان تام بفضل نظام الضمان المالي والمحفظة الذكية المتكاملة لحين استلام طلبك.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon"><i class="fa-solid fa-comments"></i></div>
-        <h3>محادثات فورية ذكية</h3>
-        <p>تواصل مع مقدمي الخدمة فورياً، أرسل الملفات والصور وتابع تطور طلبك لحظة بلحظة.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- الفوتر (Footer) -->
-  <footer class="footer">
-    <div class="footer-container">
-      <div class="footer-brand">
-        <span class="logo-text">Boostify<span class="gradient-text">AI</span></span>
-        <p>منصتك الاحترافية الرائدة لخدمات ومشاريع الذكاء الاصطناعي.</p>
-      </div>
-      <div class="footer-links-group">
-        <h4>الروابط القانونية</h4>
-        <a href="privacy.html">سياسة الخصوصية</a>
-        <a href="terms.html">الشروط والأحكام</a>
-        <a href="faq.html">الأسئلة الشائعة</a>
-      </div>
-      <div class="footer-socials">
-        <h4>تابعنا</h4>
-        <div class="social-icons">
-          <a href="#"><i class="fa-brands fa-twitter"></i></a>
-          <a href="#"><i class="fa-brands fa-linkedin"></i></a>
-          <a href="#"><i class="fa-brands fa-github"></i></a>
+    <!-- نافذة منبثقة (Modal) لشحن المحفظة -->
+    <div class="modal-overlay" id="wallet-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-wallet"></i> شحن المحفظة</h3>
+                <button class="close-modal" id="btn-close-wallet"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <p>رصيدك الحالي: <strong id="modal-balance-display" style="color: var(--success);">0.00$</strong></p>
+                <div class="form-group mt-4">
+                    <label>المبلغ المراد شحنه ($)</label>
+                    <input type="number" id="deposit-amount" min="1" step="1" placeholder="مثال: 50">
+                </div>
+                <button class="btn-primary-action" id="btn-confirm-deposit" style="width: 100%;">
+                    <i class="fa-solid fa-bolt"></i> شحن الرصيد الآن
+                </button>
+            </div>
         </div>
-      </div>
     </div>
-    <div class="footer-bottom">
-      <p>&copy; 2026 Boostify AI. جميع الحقوق محفوظة.</p>
-    </div>
-  </footer>
 
-  <!-- إعدادات تهيئة واستيراد الكود الديناميكي كـ Module -->
-  <script type="module" src="index.js"></script>
+    <script type="module" src="index.js"></script>
 </body>
 </html>

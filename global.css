@@ -1,0 +1,280 @@
+/* =========================================================================
+   Boostify AI - Global Design System (Dark Theme)
+   ========================================================================= */
+
+/* استيراد خط تجوال العربي العصري من Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap');
+
+:root {
+    /* نظام الألوان الأساسي */
+    --bg-main: #0b1120;           /* لون الخلفية الرئيسي (أزرق داكن جداً) */
+    --bg-sidebar: #111827;        /* لون القائمة الجانبية */
+    --bg-card: #1f2937;           /* لون البطاقات */
+    
+    /* ألوان التمييز (اللمسة الذكية) */
+    --accent-primary: #3b82f6;    /* أزرق تقني */
+    --accent-hover: #2563eb;
+    --accent-glow: rgba(59, 130, 246, 0.4);
+    
+    /* ألوان النصوص */
+    --text-primary: #f8fafc;      /* أبيض ناصع للنصوص الأساسية */
+    --text-muted: #94a3b8;        /* رمادي فاتح للنصوص الثانوية */
+    
+    /* ألوان الحالات */
+    --success: #10b981;           /* أخضر للنجاح/الرصيد */
+    --danger: #ef4444;            /* أحمر للأخطاء/الحذف */
+    --warning: #f59e0b;           /* برتقالي للتنبيهات/الانتظار */
+    
+    /* الحواف والظلال */
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --border-light: rgba(255, 255, 255, 0.08);
+    --shadow-premium: 0 4px 20px rgba(0, 0, 0, 0.3);
+    
+    /* الحركات */
+    --transition-smooth: all 0.3s ease-in-out;
+}
+
+/* ==========================================
+   إعدادات عامة (Reset & Typography)
+   ========================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    font-family: 'Tajawal', sans-serif;
+    line-height: 1.6;
+    font-size: 16px;
+    overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: var(--transition-smooth);
+}
+
+button {
+    font-family: 'Tajawal', sans-serif;
+    cursor: pointer;
+    border: none;
+    outline: none;
+}
+
+/* ==========================================
+   تخطيط التطبيق الأساسي (App Layout)
+   ========================================== */
+.app-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* ==========================================
+   القائمة الجانبية (Sidebar)
+   ========================================== */
+.sidebar {
+    width: 260px;
+    background-color: var(--bg-sidebar);
+    border-left: 1px solid var(--border-light);
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem 0;
+    position: fixed;
+    top: 0;
+    right: 0; /* لأن الاتجاه RTL */
+    height: 100vh;
+    z-index: 100;
+}
+
+.sidebar-brand {
+    padding: 0 1.5rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--border-light);
+    margin-bottom: 1.5rem;
+}
+
+.brand-icon {
+    font-size: 1.8rem;
+    color: var(--accent-primary);
+    text-shadow: 0 0 15px var(--accent-glow);
+}
+
+.sidebar-brand h2 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.sidebar-brand span {
+    color: var(--accent-primary);
+}
+
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 0 1rem;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: var(--radius-md);
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    font-weight: 500;
+}
+
+.menu-item i {
+    width: 20px;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.menu-item:hover, .menu-item.active {
+    background-color: rgba(59, 130, 246, 0.1);
+    color: var(--accent-primary);
+}
+
+.menu-item.active {
+    border-right: 4px solid var(--accent-primary);
+}
+
+/* ==========================================
+   المحتوى الرئيسي (Main Content)
+   ========================================== */
+.main-content {
+    flex: 1;
+    margin-right: 260px; /* تعويض مساحة القائمة الجانبية */
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-main);
+}
+
+.app-header {
+    height: 70px;
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--bg-main);
+    border-bottom: 1px solid var(--border-light);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.app-header h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.dashboard-viewport {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* ==========================================
+   الأزرار (Buttons)
+   ========================================== */
+.btn-primary-action {
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-hover));
+    color: white;
+    padding: 12px 24px;
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 4px 15px var(--accent-glow);
+    transition: var(--transition-smooth);
+}
+
+.btn-primary-action:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px var(--accent-glow);
+}
+
+.btn-primary-action:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ==========================================
+   النماذج والمدخلات (Forms & Inputs)
+   ========================================== */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.form-group input, 
+.form-group select {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-light);
+    color: var(--text-primary);
+    padding: 12px 16px;
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    font-family: inherit;
+    transition: var(--transition-smooth);
+}
+
+.form-group input:focus, 
+.form-group select:focus {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    outline: none;
+}
+
+/* ==========================================
+   التوافق مع الشاشات الصغيرة (Responsive)
+   ========================================== */
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(100%); /* إخفاء القائمة الجانبية افتراضياً في الجوال */
+        transition: transform 0.3s ease;
+    }
+    
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .main-content {
+        margin-right: 0;
+    }
+
+    .app-header {
+        padding: 0 1rem;
+    }
+
+    .dashboard-viewport {
+        padding: 1rem;
+    }
+}

@@ -1,0 +1,74 @@
+/* =========================================================================
+   Boostify AI - Categories Flat Style Sheet
+   ========================================================================= */
+
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.category-card {
+    background-color: var(--bg-sidebar);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    text-align: center;
+    transition: var(--transition-smooth);
+    box-shadow: var(--shadow-premium);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent-primary);
+    box-shadow: 0 10px 30px rgba(99, 102, 241, 0.1);
+}
+
+.category-icon-wrapper {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: rgba(99, 102, 241, 0.08);
+    color: var(--accent-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.category-card h4 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.category-card p {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+.category-counter {
+    font-size: 0.8rem;
+    font-weight: bold;
+    background-color: var(--bg-main);
+    padding: 4px 12px;
+    border-radius: 12px;
+    color: var(--accent-glow);
+    margin-top: 8px;
+}
+
+.loading-full-page {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 5rem;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+}

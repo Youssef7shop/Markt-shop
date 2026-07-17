@@ -1,0 +1,112 @@
+/* =========================================================================
+   Boostify AI - Admin Panel Flat Style Sheet
+   ========================================================================= */
+
+.admin-sidebar {
+    background-color: #0f172a;
+    border-left: 1px solid rgba(239, 68, 68, 0.2); /* لمسة حمراء خفيفة لتمييز لوحة الإدارة */
+}
+
+.admin-section {
+    background-color: var(--bg-sidebar);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-premium);
+}
+
+.mt-4 { margin-top: 2rem; }
+
+.section-header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.section-header h4 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--accent-primary);
+}
+
+/* جداول الإدارة */
+.table-responsive {
+    overflow-x: auto;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: right;
+}
+
+.admin-table th, .admin-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.admin-table th {
+    background-color: rgba(0, 0, 0, 0.2);
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: bold;
+}
+
+.admin-table td {
+    font-size: 0.9rem;
+    vertical-align: middle;
+}
+
+.py-4 { padding-top: 2rem; padding-bottom: 2rem; }
+.text-center { text-align: center; }
+
+/* القائمة المنسدلة لتغيير حالة الطلب */
+.status-select {
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    outline: none;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.status-select:focus { border-color: var(--accent-primary); }
+
+/* نموذج إضافة الخدمة */
+.admin-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .form-row { grid-template-columns: 1fr; }
+}
+
+.admin-form textarea {
+    background-color: var(--bg-main);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+    border-radius: var(--radius-md);
+    padding: 12px;
+    width: 100%;
+    resize: vertical;
+    outline: none;
+    font-family: inherit;
+}
+
+.admin-form textarea:focus {
+    border-color: var(--accent-primary);
+}
