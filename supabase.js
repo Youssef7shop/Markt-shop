@@ -2,8 +2,8 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
 // تذكر استبدال هذه القيم بالروابط الخاصة بمشروعك من لوحة تحكم Supabase
-const supabaseUrl = 'https://wftcbzufmcjwyzyichml.supabase.co';
-const supabaseKey = 'sb_publishable_ApmI13vCQ93xxioPg7fMxA_jXVgTihi'; // مفتاح عام للعميل (Public Key) لا تستخدم المفتاح السري هنا
+const supabaseUrl = 'https://zzcpxgbhwfeqaxznzuul.supabase.co';
+const supabaseKey = 'sb_publishable_ZKS8NSq_B6PjkyRorDzWZw_Iy7bx2Rc'; // مفتاح عام للعميل (Public Key) لا تستخدم المفتاح السري هنا
 
 // إنشاء وإطلاق العميل الخاص بـ Supabase
 export const supabase = createClient(supabaseUrl, supabaseKey);
