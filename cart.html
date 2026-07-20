@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سلة المشتريات وإتمام الطلب | DarkBoost</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- الشريط العلوي (Header) -->
+    <header class="navbar">
+        <div class="container nav-content">
+            <a href="index.html" class="logo"><i class="fa-solid fa-bolt"></i> DarkBoost</a>
+            <nav class="nav-links">
+                <a href="index.html">الرئيسية</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- حاوية السلة والدفع -->
+    <section class="cart-section">
+        <div class="container">
+            <h1 class="section-title"><i class="fa-solid fa-cart-shopping"></i> سلة المشتريات</h1>
+            
+            <div class="cart-wrapper">
+                <!-- قائمة عناصر السلة -->
+                <div class="cart-items-box">
+                    <table class="cart-table">
+                        <thead>
+                            <tr>
+                                <th>الخدمة</th>
+                                <th>الباقة / الرابط المستهدف</th>
+                                <th>السعر</th>
+                                <th>إجراء</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cart-items-body">
+                            <!-- سيتم تعبئة العناصر هنا -->
+                        </tbody>
+                    </table>
+                    <div id="empty-cart-msg" style="display: none; text-align: center; padding: 40px;">
+                        <i class="fa-solid fa-cart-flatbed-suitcases" style="font-size: 3rem; color: var(--text-muted);"></i>
+                        <p style="margin-top: 15px;">سلة المشتريات فارغة حالياً.</p>
+                        <a href="index.html" class="cta-btn" style="margin-top: 15px; font-size: 1rem;">تصفح الخدمات</a>
+                    </div>
+                </div>
+
+                <!-- ملخص الطلب والدفع -->
+                <div class="cart-summary-box">
+                    <h3>ملخص الطلب</h3>
+                    <div class="summary-line">
+                        <span>المجموع الكلي:</span>
+                        <strong id="cart-total">0.00 $</strong>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 20px;">
+                        <label>كوبون الخصم (إن وجد):</label>
+                        <div style="display: flex; gap: 10px;">
+                            <input type="text" id="coupon-code" class="form-control" placeholder="أدخل الكوبون">
+                            <button class="login-btn" onclick="applyCoupon()" style="border: none; cursor: pointer;">تطبيق</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>طريقة الدفع:</label>
+                        <select id="payment-method" class="form-control">
+                            <option value="wallet">المحفظة الإلكترونية</option>
+                            <option value="paypal">باي بال</option>
+                            <option value="crypto">teligram</option>
+                        </select>
+                    </div>
+
+                    <button class="add-to-cart-btn" onclick="checkout()" id="checkout-btn" style="margin-top: 10px;">
+                        <i class="fa-solid fa-lock"></i> إتمام الطلب الآن
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- الفوتر -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-info">
+                <h3>DarkBoost</h3>
+                <p>منصتك الأولى للخدمات الرقمية المتكاملة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="cart.js"></script>
+</body>
+</html>
